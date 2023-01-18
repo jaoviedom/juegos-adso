@@ -10,7 +10,7 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title>Form Elements - General | DashLite Admin Template</title>
+    <title>@yield('titulo')</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('css/dashlite.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
@@ -39,20 +39,32 @@
                     <div class="nk-sidebar-content">
                         <div class="nk-sidebar-menu" data-simplebar>
                             <ul class="nk-menu">
-                                <li class="nk-menu-heading">
-                                    <h6 class="overline-title text-primary-alt">Use-Case Preview</h6>
-                                </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="html/ecommerce/index.html" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-bag"></em></span>
-                                        <span class="nk-menu-text">E-Commerce Panel</span><span class="nk-menu-badge">HOT</span>
+                                        <span class="nk-menu-text">E-Commerce Panel</span>
                                     </a>
                                 </li><!-- .nk-menu-item -->
                                 <li class="nk-menu-item">
                                     <a href="html/lms/index.html" class="nk-menu-link">
                                         <span class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span>
-                                        <span class="nk-menu-text">LMS Panel</span><span class="nk-menu-badge">HOT</span>
+                                        <span class="nk-menu-text">LMS Panel</span>
                                     </a>
+                                </li><!-- .nk-menu-item -->
+
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill"></em></span>
+                                        <span class="nk-menu-text">Projects</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="html/project-card.html" class="nk-menu-link"><span class="nk-menu-text">Project Cards</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="html/project-list.html" class="nk-menu-link"><span class="nk-menu-text">Project List</span></a>
+                                        </li>
+                                    </ul><!-- .nk-menu-sub -->
                                 </li><!-- .nk-menu-item -->
                             </ul>
                                 
