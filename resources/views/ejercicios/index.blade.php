@@ -40,7 +40,7 @@
                     <h6 class="overline-title title">Código</h6>
                     <button class="btn btn-sm clipboard-init" title="Copy to clipboard" data-clipboard-target="#formElements{{ $item->id }}" data-clip-success="Copiado" data-clip-text="Copiar"><span class="clipboard-text">Copiar</span></button>
                     <pre class="prettyprint lang-html" id="formElements{{ $item->id }}">
-                      {{ $item->enunciado }}
+{{ $item->enunciado }}
                     </pre>
                   </div>
                 </div>

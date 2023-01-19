@@ -26,8 +26,8 @@
                 <div class="nk-sidebar-element nk-sidebar-head">
                     <div class="nk-sidebar-brand">
                         <a href="html/index.html" class="logo-link nk-sidebar-logo">
-                            <img class="logo-light logo-img" src="{{ asset('images/logo.png') }}" srcset="./images/logo2x.png 2x" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('images/logo.png') }}" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+                            <img class="logo-light logo-img" src="{{ asset('images/logo.png') }}" alt="logo">
+                            <img class="logo-dark logo-img" src="{{ asset('images/logo-dark.png') }}" alt="logo-dark">
                             <img class="logo-small logo-img logo-img-small" src="./images/logo-small.png" srcset="./images/logo-small2x.png 2x" alt="logo-small">
                         </a>
                     </div>
@@ -40,19 +40,6 @@
                     <div class="nk-sidebar-content">
                         <div class="nk-sidebar-menu" data-simplebar>
                             <ul class="nk-menu">
-                                <li class="nk-menu-item">
-                                    <a href="html/ecommerce/index.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-bag"></em></span>
-                                        <span class="nk-menu-text">E-Commerce Panel</span>
-                                    </a>
-                                </li><!-- .nk-menu-item -->
-                                <li class="nk-menu-item">
-                                    <a href="html/lms/index.html" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span>
-                                        <span class="nk-menu-text">LMS Panel</span>
-                                    </a>
-                                </li><!-- .nk-menu-item -->
-
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-link-group"></em></span>
@@ -107,7 +94,7 @@
                             </div><!-- .nk-header-brand -->
                             <div class="nk-header-search ms-3 ms-xl-0">
                                 <em class="icon ni ni-search"></em>
-                                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search anything">
+                                <input type="text" class="form-control border-transparent form-focus-none" placeholder="Buscar...">
                             </div><!-- .nk-header-news -->
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">

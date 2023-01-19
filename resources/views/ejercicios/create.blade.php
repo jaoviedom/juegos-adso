@@ -15,26 +15,7 @@
       <div class="preview-block">
         <form action="{{ route('ejercicios.store') }}" method="post" class="needs-validation" novalidate>
           @csrf
-          <div class="form-group">
-            <label class="form-label" for="default-06">Categoría</label>
-            <div class="form-control-wrap ">
-                <div class="form-control-select">
-                    <select class="form-control" id="default-06" name="categoria" required>
-                        <option selected disabled>Seleccione...</option>
-                        <option value="Condicionales">Condicionales</option>
-                        <option value="Ciclo for">Ciclo for</option>
-                        <option value="Ciclo while">Ciclo while</option>
-                    </select>
-                </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="default-textarea">Enunciado</label>
-            <div class="form-control-wrap">
-                <textarea class="form-control no-resize" id="default-textarea" name="enunciado" required>Ingrese el cuerpo del enunciado...</textarea>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary">Guardar</button>
+          @include('ejercicios.form')
         </form>
       </div>
   </div>

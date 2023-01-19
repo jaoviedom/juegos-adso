@@ -26,7 +26,7 @@ class EjercicioController extends Controller
      */
     public function create()
     {
-        return view('ejercicios.insert');
+        return view('ejercicios.create');
     }
 
     /**
@@ -54,9 +54,10 @@ class EjercicioController extends Controller
      * @param  \App\Models\Ejercicio  $ejercicio
      * @return \Illuminate\Http\Response
      */
-    public function show(Ejercicio $ejercicio)
+    public function show($id)
     {
-        //
+        $ejercicio = Ejercicio::find($id);
+        return view ('ejercicios.show', compact('ejercicio'));
     }
 
     /**
@@ -65,9 +66,10 @@ class EjercicioController extends Controller
      * @param  \App\Models\Ejercicio  $ejercicio
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ejercicio $ejercicio)
+    public function edit($id)
     {
-        //
+        $ejercicio = Ejercicio::find($id);
+        return view('ejercicios.edit', compact('ejercicio'));
     }
 
     /**
@@ -77,9 +79,16 @@ class EjercicioController extends Controller
      * @param  \App\Models\Ejercicio  $ejercicio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ejercicio $ejercicio)
+    public function update(Request $request, $id)
     {
-        //
+        $ejercicio = Ejercicio::find($id)->update($request->all());
+        if($ejercicio)
+        {
+            Alert::success('Éxito', '¡Se ha modificado el ejercicio!');
+        } else {
+            Alert::error('Error', '¡Ha ocurrido un error!');
+        }
+        return redirect()->route('ejercicios.index');
     }
 
     /**
