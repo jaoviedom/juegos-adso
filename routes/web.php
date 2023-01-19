@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GrupoController;
+use App\Http\Controllers\EjercicioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +24,6 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 Route::resource('grupos', GrupoController::class);
+Route::resource('ejercicios', EjercicioController::class);
 
 require __DIR__.'/auth.php';

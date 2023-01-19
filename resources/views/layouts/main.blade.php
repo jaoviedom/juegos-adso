@@ -17,6 +17,7 @@
 </head>
 
 <body class="nk-body bg-lighter npc-default has-sidebar ">
+    @include('sweetalert::alert')
     <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">
@@ -54,15 +55,30 @@
 
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill"></em></span>
-                                        <span class="nk-menu-text">Projects</span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-link-group"></em></span>
+                                        <span class="nk-menu-text">Grupos</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="html/project-card.html" class="nk-menu-link"><span class="nk-menu-text">Project Cards</span></a>
+                                            <a href="{{ route('grupos.index') }}" class="nk-menu-link"><span class="nk-menu-text">Listar</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="html/project-list.html" class="nk-menu-link"><span class="nk-menu-text">Project List</span></a>
+                                            <a href="{{ route('grupos.create') }}" class="nk-menu-link"><span class="nk-menu-text">Crear nuevo</span></a>
+                                        </li>
+                                    </ul><!-- .nk-menu-sub -->
+                                </li><!-- .nk-menu-item -->
+
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-edit-fill"></em></span>
+                                        <span class="nk-menu-text">Ejercicios</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('ejercicios.index') }}" class="nk-menu-link"><span class="nk-menu-text">Listar</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('ejercicios.create') }}" class="nk-menu-link"><span class="nk-menu-text">Crear nuevo</span></a>
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li><!-- .nk-menu-item -->
@@ -312,6 +328,7 @@
     <!-- JavaScript -->
     <script src="{{ asset('js/bundle.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
+    @yield('scripts')
 </body>
 
 </html>
