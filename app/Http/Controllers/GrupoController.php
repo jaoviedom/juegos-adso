@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Grupo;
+use App\Models\User;
+use App\Models\Aprendiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class GrupoController extends Controller
 {
@@ -14,7 +18,13 @@ class GrupoController extends Controller
      */
     public function index()
     {
-        return view('grupos.index');
+        if( Auth::user()->rol == "Instructor")
+        {
+            $grupos = Grupo::orderBy('nombre', 'asc')->get();
+            return view('grupos.index', compact('grupos'));
+        } else {
+            return view('welcome');
+        }
     }
 
     /**
@@ -24,7 +34,7 @@ class GrupoController extends Controller
      */
     public function create()
     {
-        //
+        return view('grupos.create');
     }
 
     /**
@@ -35,7 +45,15 @@ class GrupoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $grupo = Grupo::create($request->all());
+        if ($grupo) {
+            Alert::success('Éxito', "¡Se ha creado el nuevo grupo!");
+        }
+        else {
+            Alert::error('Error', '¡Ha ocurrido un error!');
+        }
+        
+        return redirect()->route('grupos.index');
     }
 
     /**
@@ -55,9 +73,16 @@ class GrupoController extends Controller
      * @param  \App\Models\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Grupo $grupo)
+    public function edit($id)
     {
-        //
+        $grupo = Grupo::find($id);
+        $usuarios = User::where('rol', 'Aprendiz')
+                            ->orderBy('name', 'asc')
+                            ->get();
+        $aprendices = Aprendiz::where('grupo_id', $id)
+                            ->select('email')
+                            ->get();
+        return view('grupos.edit', compact('grupo', 'usuarios', 'aprendices'));
     }
 
     /**
@@ -67,9 +92,36 @@ class GrupoController extends Controller
      * @param  \App\Models\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Grupo $grupo)
+    public function update(Request $request, $id)
     {
-        //
+        $aprendicesAgregar = [];
+        $aprendicesSeleccionados = $request->aprendices;
+        $aprendicesActuales = Aprendiz::where('grupo_id', $id)->select('id')->get()->toArray();
+        $grupo = Grupo::find($id)->update($request->except(['aprendices']));
+
+        foreach ($aprendicesSeleccionados as $id => $seleccionado) {
+            // dd($aprendicesActuales);
+            if (in_array($seleccionado, $aprendicesActuales))
+                $aprendicesAgregar[] = $seleccionado;
+        }
+        dd($aprendicesAgregar);
+        foreach($aprendicesAgregar as $item)
+        {
+            $user = User::find($item);
+            $aprendiz = new Aprendiz();
+            $aprendiz->nombre = $user->name;
+            $aprendiz->email = $user->email;
+            $aprendiz->grupo_id = $id;
+            $aprendiz->save();
+        }
+
+        if($grupo)
+        {
+            Alert::success('Éxito', '¡Se ha modificado el grupo!');
+        } else {
+            Alert::error('Error', '¡Ha ocurrido un error!');
+        }
+        return redirect()->route('grupos.index');
     }
 
     /**
@@ -78,8 +130,9 @@ class GrupoController extends Controller
      * @param  \App\Models\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grupo $grupo)
+    public function destroy($id)
     {
-        //
+        Grupo::find($id)->delete();
+        return back();
     }
 }

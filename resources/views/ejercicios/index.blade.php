@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('titulo', 'Ejercicios')
-@section('nombre-usuario', 'Nombre de usuario')
 
 @section('content')
 <div class="nk-block-head nk-block-head-lg wide-sm">
@@ -39,9 +38,7 @@
                   <div class="code-block">
                     <h6 class="overline-title title">Código</h6>
                     <button class="btn btn-sm clipboard-init" title="Copy to clipboard" data-clipboard-target="#formElements{{ $item->id }}" data-clip-success="Copiado" data-clip-text="Copiar"><span class="clipboard-text">Copiar</span></button>
-                    <pre class="prettyprint lang-html" id="formElements{{ $item->id }}">
-{{ $item->enunciado }}
-                    </pre>
+                    <pre class="prettyprint lang-html" id="formElements{{ $item->id }}">{{ $item->enunciado }}</pre>
                   </div>
                 </div>
               </td>
