@@ -24,6 +24,26 @@
 {{ $ejercicio->enunciado }}
         </pre>
       </div>
+      <h3>Pregunta 1:</h3>
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <h3>Pregunta 2:</h3>
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <h3>Pregunta 3:</h3>
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <h3>Pregunta 4:</h3>
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
+      <input type="text" name="" id="" class="form-control">
       <a href="{{ route('ejercicios.index') }}" class="mt-3 btn btn-secondary"><em class="icon ni ni-arrow-left"></em> Volver</a>
     </div>
   </div>

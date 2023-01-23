@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ejercicio;
+use App\Models\Pregunta;
+use App\Models\Respuesta;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Symfony\Component\VarDumper\VarDumper;
 
 class EjercicioController extends Controller
 {
@@ -38,6 +41,21 @@ class EjercicioController extends Controller
     public function store(Request $request)
     {
         $ejercicio = Ejercicio::create($request->all());
+        $pattern = "/\[[^\]]*\]/";
+        preg_match_all($pattern, $ejercicio->enunciado, $captura);
+        for ($i=0; $i < count($captura[0]); $i++) {
+            $textorespuesta = substr($captura[0][$i],1,-1);
+            $pregunta = new Pregunta();
+            $pregunta->numero = $i;
+            $pregunta->ejercicio_id = $ejercicio->id;
+            $pregunta->save();
+            $respuesta = new Respuesta();
+            $respuesta->texto = $textorespuesta;
+            $respuesta->esCorrecta = 1;
+            $respuesta->pregunta_id = $pregunta->id;
+            $respuesta->save();
+        }
+
         if ($ejercicio) {
             Alert::success('Éxito', '¡Se ha creado el nuevo ejercicio!');
         }
@@ -45,7 +63,7 @@ class EjercicioController extends Controller
             Alert::error('Error', '¡Ha ocurrido un error!');
         }
         
-        return redirect()->route('ejercicios.index');
+        return redirect()->route('ejercicios.show',$ejercicio->id);
     }
 
     /**
