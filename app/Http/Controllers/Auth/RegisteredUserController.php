@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Aprendiz;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -42,6 +43,14 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'rol' => 'Aprendiz',
+            'password' => Hash::make($request->password),
+        ]);
+
+        $aprendiz =  Aprendiz::create([
+            'nombre' => $request->name,
+            'email' => $request->email,
+            'grupo_id' => 1,
             'password' => Hash::make($request->password),
         ]);
 

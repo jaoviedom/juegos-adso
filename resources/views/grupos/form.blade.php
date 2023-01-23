@@ -23,7 +23,7 @@
   <label class="form-label" for="default-07">Aprendices del grupo</label>
   <div class="form-control-wrap">
       <div class="form-control-select-multiple">
-          <select class="form-select" id="default-07" multiple aria-label="multiple select example" name="aprendices[]">
+          <select class="form-select" id="default-07" multiple aria-label="multiple select example" name="aprendices[]" size="30">
             @foreach ($usuarios as $user)
             <option value="{{ $user->id }}" 
               @foreach ($aprendices as $aprendiz)
@@ -36,19 +36,23 @@
   </div>
 </div>
 @endif
-@if (isset($usuarios))
+{{-- @if (isset($usuarios))
 <div class="form-group">
-  <label class="form-label" for="default-07">Aprendices</label>
+  <label class="form-label" for="default-07">Aprendices asignados al grupo</label>
   <div class="form-control-wrap">
     @foreach ($usuarios as $user)
     <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-control-input" id="customCheck1" value="{{ $user->id }}" name="aprendices">
+      <input type="checkbox" class="custom-control-input" id="user{{ $user->id }}" value="{{ $user->id }}" name="aprendices[]" 
+      @foreach ($aprendices as $aprendiz)
+        @if($user->email == $aprendiz->email) checked @endif
+      @endforeach
+      >
       <label class="custom-control-label" for="customCheck1">{{ $user->name }}</label>
     </div>
     <br><br>
     @endforeach
   </div>
 </div>
-@endif
+@endif --}}
 
 <button type="submit" class="btn btn-primary">Guardar</button>

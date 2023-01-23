@@ -20,7 +20,10 @@ class GrupoController extends Controller
     {
         if( Auth::user()->rol == "Instructor")
         {
-            $grupos = Grupo::orderBy('nombre', 'asc')->get();
+            $grupos = Grupo::orderBy('nombre', 'asc')
+                            ->where('id', '>', 1)
+                            ->where('user_id', Auth::user()->id)
+                            ->get();
             return view('grupos.index', compact('grupos'));
         } else {
             return view('welcome');
@@ -62,9 +65,15 @@ class GrupoController extends Controller
      * @param  \App\Models\Grupo  $grupo
      * @return \Illuminate\Http\Response
      */
-    public function show(Grupo $grupo)
+    public function show($id)
     {
-        //
+        $grupo = Grupo::find($id);
+        $usuarios = User::where('rol', 'Aprendiz')
+                            ->orderBy('name', 'asc')
+                            ->get();
+        $aprendices = Aprendiz::where('grupo_id', $id)
+                            ->get();
+        return view('grupos.show', compact('grupo', 'usuarios', 'aprendices'));
     }
 
     /**
@@ -99,22 +108,36 @@ class GrupoController extends Controller
         $aprendicesActuales = Aprendiz::where('grupo_id', $id)->select('id')->get()->toArray();
         $grupo = Grupo::find($id)->update($request->except(['aprendices']));
 
-        foreach ($aprendicesSeleccionados as $id => $seleccionado) {
-            // dd($aprendicesActuales);
-            if (in_array($seleccionado, $aprendicesActuales))
-                $aprendicesAgregar[] = $seleccionado;
-        }
-        dd($aprendicesAgregar);
-        foreach($aprendicesAgregar as $item)
+        $aprendicesActuales = Aprendiz::where('grupo_id', $id)->get();
+
+        $yaAsignados = [];
+        foreach($aprendicesActuales as $aa)
         {
-            $user = User::find($item);
-            $aprendiz = new Aprendiz();
-            $aprendiz->nombre = $user->name;
-            $aprendiz->email = $user->email;
-            $aprendiz->grupo_id = $id;
-            $aprendiz->save();
+            $yaAsignados[] = $aa;
         }
 
+        // Desaignar a todos los que están asignado
+        foreach($yaAsignados as $asignado)
+        {
+            $asignado->grupo_id = 1;
+            $asignado->save();
+        }
+        
+        // Obtener los id de los aprendices por el email
+        $aAsignar = [];
+        foreach ($request->aprendices as $item) {
+            $user = User::find($item);
+            $aAsignar[] = Aprendiz::where('email', $user->email)->first();
+        }
+
+        // Asignar a los aprendices seleccionados   
+        foreach($aAsignar as $asignar)
+        {
+            // Asignar al grupo
+            $asignar->grupo_id = $id;
+            $asignar->save();
+        }
+        
         if($grupo)
         {
             Alert::success('Éxito', '¡Se ha modificado el grupo!');

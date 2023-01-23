@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('titulo', 'Nuevo ejercicio')
-@section('nombre-usuario', 'Nombre de usuario')
 
 @section('content')
 <div class="nk-block-head-content">
