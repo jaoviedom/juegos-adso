@@ -8,6 +8,12 @@
     <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
+    
+    <!-- Flipbook StyleSheet -->
+    <link rel="stylesheet" href="{{ asset('css/dflip.min.css') }}">
+    <!-- Icons Stylesheet -->
+    <link rel="stylesheet" href="{{ asset('css/themify-icons.min.css') }}">
+
     <!-- Page Title  -->
     <title>@yield('titulo')</title>
     <!-- StyleSheets  -->
