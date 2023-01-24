@@ -23,6 +23,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::get('/lecciones', function () {
+    return view('lecciones.index');
+})->name('lecciones.index');
+
 Route::resource('grupos', GrupoController::class);
 Route::resource('ejercicios', EjercicioController::class);
 
