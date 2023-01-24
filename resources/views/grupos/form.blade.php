@@ -18,7 +18,7 @@
 </div>
 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
-@if (isset($aprendices))
+{{-- @if (isset($aprendices))
 <div class="form-group">
   <label class="form-label" for="default-07">Aprendices del grupo</label>
   <div class="form-control-wrap">
@@ -35,8 +35,8 @@
       </div>
   </div>
 </div>
-@endif
-{{-- @if (isset($usuarios))
+@endif --}}
+@if (isset($usuarios))
 <div class="form-group">
   <label class="form-label" for="default-07">Aprendices asignados al grupo</label>
   <div class="form-control-wrap">
@@ -53,6 +53,6 @@
     @endforeach
   </div>
 </div>
-@endif --}}
+@endif
 
 <button type="submit" class="btn btn-primary">Guardar</button>
