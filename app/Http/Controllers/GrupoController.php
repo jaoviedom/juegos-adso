@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Grupo;
+use App\Models\GrupoEjercicio;
 use App\Models\User;
 use App\Models\Aprendiz;
+use App\Models\Avance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -73,7 +75,10 @@ class GrupoController extends Controller
                             ->get();
         $aprendices = Aprendiz::where('grupo_id', $id)
                             ->get();
-        return view('grupos.show', compact('grupo', 'usuarios', 'aprendices'));
+        $ejerciciosGrupo = GrupoEjercicio::where('grupo_id', $id)->get();
+
+        $avances = Avance::all();
+        return view('grupos.show', compact('grupo', 'usuarios', 'aprendices', 'ejerciciosGrupo', 'avances'));
     }
 
     /**

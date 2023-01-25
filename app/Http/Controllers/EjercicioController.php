@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Ejercicio;
 use App\Models\Pregunta;
 use App\Models\Respuesta;
+use App\Models\GrupoEjercicio;
+use App\Models\Aprendiz;
+use App\Models\Avance;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\VarDumper\VarDumper;
+use Illuminate\Support\Facades\Auth;
 
 class EjercicioController extends Controller
 {
@@ -119,5 +123,77 @@ class EjercicioController extends Controller
     {
         Ejercicio::find($id)->delete();
         return back();
+    }
+
+    public function condicionales()
+    {
+        $categoria = "Condicionales";
+        $aprendiz = Aprendiz::where('email', Auth::user()->email)->first();
+        $ejerciciosGrupo = GrupoEjercicio::where('grupo_id', $aprendiz->grupo_id)->get();
+        $ejercicios = [];
+        $strEjercicios = [];
+        foreach ($ejerciciosGrupo as $item) {
+            $ejercicio = Ejercicio::find($item->ejercicio_id);
+            if($ejercicio->categoria == "Condicionales")
+            {
+                $ejercicio = Ejercicio::find($item->ejercicio_id);
+                $ejercicios[] = $ejercicio;
+                $strEjercicios[] = preg_replace('/\[.*?\]/', '(__)', $ejercicio->enunciado);
+            }
+        }
+        return view('aprendiz.ejercicios.index', compact('ejercicios', 'categoria', 'strEjercicios'));
+    }
+    
+    public function resolver($id)
+    {
+        $ejercicio = Ejercicio::find($id);
+        $strEjercicio = preg_replace('/\[.*?\]/', '(__)', $ejercicio->enunciado);
+        $preguntas = Pregunta::where('ejercicio_id', $id)->get();
+        $respuestas = [];
+        foreach($preguntas as $pregunta)
+        {
+            $respuestas[] = Respuesta::where('pregunta_id', $pregunta->id)->orderByRaw("RAND()")->get();
+        }
+        // dd($respuestas);
+        return view('aprendiz.ejercicios.responder', compact('ejercicio', 'strEjercicio', 'preguntas', 'respuestas'));
+    }
+
+    public function guardarRespuestas(Request $request)
+    {
+        $puntaje = 0;
+        $preguntas = [];
+        foreach ($request->preguntas as $pregunta) {
+            $preguntas[] = Pregunta::find($pregunta);
+        }
+        $puntosPregunta = 100 / count($preguntas);
+        $respuestas = [];
+        foreach ($request->respuestas as $respuesta) {
+            $respuesta = Respuesta::find($respuesta);
+            if($respuesta->esCorrecta)
+                $puntaje += $puntosPregunta;
+        }
+        // var_dump($puntaje);
+        $aprendiz = Aprendiz::where('email', Auth::user()->email)->first();
+
+        $avance = new Avance();
+        $avance->aprendiz_id = $aprendiz->id;
+        $avance->ejercicio_id = $request->ejercicio_id;
+        $avance->porcentaje = $puntaje;
+        $avance->save();
+
+        return redirect()->route('miavance');
+    }
+
+    public function miavance()
+    {
+        $aprendiz = Aprendiz::where('email', Auth::user()->email)->first();
+        $ejerciciosGrupo = GrupoEjercicio::where('grupo_id', $aprendiz->grupo_id)->get();
+        $avances = Avance::where('aprendiz_id', $aprendiz->id)->get();
+        $avanceGlobal = 0;
+        foreach ($avances as $avance) {
+            $avanceGlobal += $avance->porcentaje;
+        }
+        $avanceGlobal /= count($ejerciciosGrupo);
+        return view('aprendiz.miavance', compact('aprendiz', 'avances', 'avanceGlobal', 'ejerciciosGrupo'));
     }
 }

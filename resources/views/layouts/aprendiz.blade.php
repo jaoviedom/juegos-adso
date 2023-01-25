@@ -52,10 +52,16 @@
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{ route('grupos.index') }}" class="nk-menu-link"><span class="nk-menu-text">Listar</span></a>
+                                            <a href="{{ route('lecciones.uno') }}" class="nk-menu-link"><span class="nk-menu-text">Lección 1</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ route('grupos.create') }}" class="nk-menu-link"><span class="nk-menu-text">Crear nuevo</span></a>
+                                            <a href="{{ route('lecciones.dos') }}" class="nk-menu-link"><span class="nk-menu-text">Lección 2</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('lecciones.tres') }}" class="nk-menu-link"><span class="nk-menu-text">Lección 3</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('lecciones.cuatro') }}" class="nk-menu-link"><span class="nk-menu-text">Lección 4</span></a>
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li><!-- .nk-menu-item -->
@@ -67,10 +73,13 @@
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{ route('ejercicios.index') }}" class="nk-menu-link"><span class="nk-menu-text">Listar</span></a>
+                                            <a href="{{ route('ejercicios.condicionales') }}" class="nk-menu-link"><span class="nk-menu-text">Condicionales</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ route('ejercicios.create') }}" class="nk-menu-link"><span class="nk-menu-text">Crear nuevo</span></a>
+                                            <a href="{{ route('ejercicios.for') }}" class="nk-menu-link"><span class="nk-menu-text">Ciclo for</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ route('ejercicios.while') }}" class="nk-menu-link"><span class="nk-menu-text">Ciclo while</span></a>
                                         </li>
                                     </ul><!-- .nk-menu-sub -->
                                 </li><!-- .nk-menu-item -->
@@ -133,7 +142,7 @@
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>Ver Perfil</span></a></li>
+                                                    <li><a href="{{ route('miavance') }}"><em class="icon ni ni-user-alt"></em><span>Ver Perfil</span></a></li>
                                                     <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                                                     <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Modo nocturno</span></a></li>

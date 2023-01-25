@@ -31,7 +31,17 @@
               <tr class="nk-tb-item">
                 <td class="nk-tb-col">
                   <a href="#" class="project-title">
-                      <div class="user-avatar sq bg-purple"><em class="icon ni ni-user"></em></div>
+                      {{-- <div class="user-avatar sq bg-purple"><em class="icon ni ni-user"></em></div> --}}
+                      <div class="user-avatar sq bg-purple">
+                        @php
+                          $initials = '';
+                          $explode = explode(' ',$item->nombre);
+                          foreach($explode as $x){
+                              $initials .=  $x[0];
+                          }
+                          echo strtoupper($initials);
+                      @endphp
+                      </div>
                       <div class="project-info">
                           <h5>{{ $item->nombre }}</h5>
                       </div>
@@ -45,11 +55,19 @@
                 <td class="nk-tb-col tb-col-md">
                   <div class="project-list-progress">
                       <div class="progress progress-pill progress-md bg-light">
-                          <div class="progress-bar" data-progress="93.5"></div>
+                        @php
+                          $avanceGlobal = 0;
+                          foreach ($avances as $avance) {
+                            if($avance->aprendiz_id == $item->id)
+                              $avanceGlobal += $avance->porcentaje;
+                          }
+                          $avanceGlobal /= count($ejerciciosGrupo);
+                        @endphp
+                        <div class="progress-bar" data-progress="@php echo $avanceGlobal @endphp"></div>
                       </div>
-                      <div class="project-progress-percent">90%</div>
+                      <div class="project-progress-percent">@php echo $avanceGlobal @endphp%</div>
                   </div>
-              </td>
+                </td>
               </tr>
               @endforeach
             </tbody>
