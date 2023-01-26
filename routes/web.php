@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\EjercicioController;
+use App\Http\Controllers\RespuestaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::get('/dashboard', function () {
 
 Route::resource('grupos', GrupoController::class);
 Route::resource('ejercicios', EjercicioController::class);
+Route::resource('respuesta', RespuestaController::class);
 
 Route::get('/leccion/1', function () {
     return view('lecciones.uno');
