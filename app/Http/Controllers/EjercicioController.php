@@ -7,7 +7,6 @@ use App\Models\Grupo;
 use App\Models\Pregunta;
 use App\Models\Respuesta;
 use App\Models\GrupoEjercicio;
-use App\Models\GrupoEjercicio;
 use App\Models\Aprendiz;
 use App\Models\Avance;
 use Illuminate\Http\Request;
