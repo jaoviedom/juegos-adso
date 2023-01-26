@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ejercicio;
+use App\Models\Grupo;
 use App\Models\Pregunta;
 use App\Models\Respuesta;
+use App\Models\GrupoEjercicio;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\VarDumper\VarDumper;
+use Illuminate\Support\Facades\DB;
 
 class EjercicioController extends Controller
 {
@@ -29,7 +32,9 @@ class EjercicioController extends Controller
      */
     public function create()
     {
-        return view('ejercicios.create');
+        
+        $grupos = Grupo::where('user_id',auth()->user()->id)->get();
+        return view('ejercicios.create', compact('grupos'));
     }
 
     /**
@@ -41,6 +46,10 @@ class EjercicioController extends Controller
     public function store(Request $request)
     {
         $ejercicio = Ejercicio::create($request->all());
+        $grupo = new GrupoEjercicio();
+        $grupo->grupo_id = $request->grupo_id;
+        $grupo->ejercicio_id = $ejercicio->id;
+        $grupo->save();
         $pattern = "/\[[^\]]*\]/";
         preg_match_all($pattern, $ejercicio->enunciado, $captura);
         for ($i=0; $i < count($captura[0]); $i++) {
@@ -75,7 +84,13 @@ class EjercicioController extends Controller
     public function show($id)
     {
         $ejercicio = Ejercicio::find($id);
-        return view ('ejercicios.show', compact('ejercicio'));
+        // $pregejercicio = Pregunta::where('ejercicio_id',$id)->get();
+        $pregejercicio = DB::table('preguntas')
+        ->select(['preguntas.id as preguntas_id','preguntas.ejercicio_id','preguntas.numero','respuestas.id', 'respuestas.texto', 'respuestas.esCorrecta'])
+        ->join('respuestas', 'preguntas.id', '=', 'respuestas.pregunta_id')
+        ->where('ejercicio_id',$id)
+        ->get();
+        return view ('ejercicios.show', compact('ejercicio','pregejercicio'));
     }
 
     /**

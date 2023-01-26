@@ -1,4 +1,17 @@
 <div class="form-group">
+  <label class="form-label" for="default-06">Grupo</label>
+  <div class="form-control-wrap ">
+      <div class="form-control-select">
+          <select class="form-control" id="default-06" name="grupo_id" required>
+              <option selected disabled value="">Seleccione...</option>
+              @foreach ($grupos as $item)
+              <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+              @endforeach
+          </select>
+      </div>
+  </div>
+</div>
+<div class="form-group">
   <label class="form-label" for="default-06">Categoría</label>
   <div class="form-control-wrap ">
       <div class="form-control-select">

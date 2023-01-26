@@ -24,27 +24,47 @@
 {{ $ejercicio->enunciado }}
         </pre>
       </div>
-      <h3>Pregunta 1:</h3>
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <h3>Pregunta 2:</h3>
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <h3>Pregunta 3:</h3>
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <h3>Pregunta 4:</h3>
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
-      <input type="text" name="" id="" class="form-control">
+      <form action="{{ route('respuesta.store') }}" method="post" class="needs-validation" novalidate>
+          @csrf
+  {{ $pregejercicio }}
+      @foreach ($pregejercicio as $item)
+      <h3>Pregunta {{ $item->numero + 1 }}:</h3>
+      <div class="form-group">
+        <label class="form-label" for="default-03">Respuesta Correcta</label>
+        <input type="hidden" name="idpregunta[]" value="{{ $item->preguntas_id }}">
+        <div class="form-control-wrap">
+            <div class="form-icon form-icon-left">
+              <em class="icon ni ni-check-circle"></em>
+            </div>
+            <input type="text" class="form-control" id="default-03" name="nombre" value="{{ $item->texto }}" required disabled>
+        </div>
+        <label class="form-label" for="default-03">Respuesta Incorrecta</label>
+        <div class="form-control-wrap">
+            <div class="form-icon form-icon-left">
+              <em class="icon ni ni-cross-circle"></em>
+            </div>
+            <input type="text" class="form-control" id="default-03" name="respuesta[]" value="" required>
+        </div>
+        <label class="form-label" for="default-03">Respuesta Incorrecta</label>
+        <div class="form-control-wrap">
+            <div class="form-icon form-icon-left">
+              <em class="icon ni ni-cross-circle"></em>
+            </div>
+            <input type="text" class="form-control" id="default-03" name="respuesta[]" value="" required>
+        </div>
+        <label class="form-label" for="default-03">Respuesta Incorrecta</label>
+        <div class="form-control-wrap">
+            <div class="form-icon form-icon-left">
+              <em class="icon ni ni-cross-circle"></em>
+            </div>
+            <input type="text" class="form-control" id="default-03" name="respuesta[]" value="" required>
+        </div>
+      </div>
+      @endforeach
       <a href="{{ route('ejercicios.index') }}" class="mt-3 btn btn-secondary"><em class="icon ni ni-arrow-left"></em> Volver</a>
+      <button type="submit" class="mt-3 btn btn-secondary"><em class="icon ni ni-arrow-left"></em> Guardar</button>
+
+      </form>
     </div>
   </div>
 </div>
