@@ -21,42 +21,23 @@
       </tr><!-- .nk-tb-item -->
     </thead>
     <tbody>
-      @foreach ($ejerciciosGrupo as $ejercicioGrupo)
-        @foreach ($avances as $item)
-          @if ($ejercicioGrupo->ejercicio_id == $item->ejercicio_id)
-          <tr class="nk-tb-item">
-            <td class="nk-tb-col">
-              <div class="project-info">
-                <h5>Ejercicio {{ $item->ejercicio_id }}</h5>
+      @foreach ($ejerciciosGrupo as $item)
+        <tr class="nk-tb-item">
+          <td class="nk-tb-col">
+            <div class="project-info">
+              <h5>Ejercicio {{ $item->id }}</h5>
+            </div>
+          </td>
+          <td class="nk-tb-col tb-col-md">
+            <div class="project-list-progress">
+              <div class="progress progress-pill progress-md bg-light">
+                {{-- <div class="progress-bar" data-progress="{{ $avance->porcentaje }}"></div> --}}
+                <div class="progress-bar" data-progress=@if($item->porcentaje != null) {{ $item->porcentaje }} @else 0 @endif></div>
               </div>
-            </td>
-            <td class="nk-tb-col tb-col-md">
-              <div class="project-list-progress">
-                <div class="progress progress-pill progress-md bg-light">
-                  <div class="progress-bar" data-progress="{{ $item->porcentaje }}"></div>
-                </div>
-                <div class="project-progress-percent">{{ $item->porcentaje }}%</div>
-              </div>
-            </td>
-          </tr>
-          @else
-          <tr class="nk-tb-item">
-            <td class="nk-tb-col">
-              <div class="project-info">
-                <h5>Ejercicio {{ $ejercicioGrupo->ejercicio_id }}</h5>
-              </div>
-            </td>
-            <td class="nk-tb-col tb-col-md">
-              <div class="project-list-progress">
-                <div class="progress progress-pill progress-md bg-light">
-                  <div class="progress-bar" data-progress="0"></div>
-                </div>
-                <div class="project-progress-percent">0%</div>
-              </div>
-            </td>
-          </tr>
-          @endif
-        @endforeach
+              <div class="project-progress-percent">@if($item->porcentaje != null) {{ $item->porcentaje }} @else 0 @endif%</div>
+            </div>
+          </td>
+        </tr>
       @endforeach
     </tbody>
   </table>

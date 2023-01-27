@@ -43,14 +43,12 @@ Route::get('/leccion/4', function () {
 })->name('lecciones.cuatro');
 
 Route::get('/ejercicios-condicionales', [EjercicioController::class, 'condicionales'])->name('ejercicios.condicionales');
-Route::get('/ejercicios-for', function () {
-    return view('lecciones.cuatro');
-})->name('ejercicios.for');
-Route::get('/ejercicios-while', function () {
-    return view('lecciones.cuatro');
-})->name('ejercicios.while');
+Route::get('/ejercicios-for', [EjercicioController::class, 'for'])->name('ejercicios.for');
+Route::get('/ejercicios-while', [EjercicioController::class, 'while'])->name('ejercicios.while');
+
 Route::get('/ejercicios-resolver/{id}', [EjercicioController::class, 'resolver'])->name('ejercicios.resolver');
 Route::post('/guardar-respuestas', [EjercicioController::class, 'guardarRespuestas'])->name('ejercicios.guardarRespuestas');
+Route::put('/editar-respuestas', [EjercicioController::class, 'editarRespuestas'])->name('ejercicios.editarRespuestas');
 Route::get('/mi-avance', [EjercicioController::class, 'miavance'])->name('miavance');
 
 

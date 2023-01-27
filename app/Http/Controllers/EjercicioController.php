@@ -157,6 +157,44 @@ class EjercicioController extends Controller
         }
         return view('aprendiz.ejercicios.index', compact('ejercicios', 'categoria', 'strEjercicios'));
     }
+
+    public function for()
+    {
+        $categoria = "Ciclo for";
+        $aprendiz = Aprendiz::where('email', Auth::user()->email)->first();
+        $ejerciciosGrupo = GrupoEjercicio::where('grupo_id', $aprendiz->grupo_id)->get();
+        $ejercicios = [];
+        $strEjercicios = [];
+        foreach ($ejerciciosGrupo as $item) {
+            $ejercicio = Ejercicio::find($item->ejercicio_id);
+            if($ejercicio->categoria == $categoria)
+            {
+                $ejercicio = Ejercicio::find($item->ejercicio_id);
+                $ejercicios[] = $ejercicio;
+                $strEjercicios[] = preg_replace('/\[.*?\]/', '(__)', $ejercicio->enunciado);
+            }
+        }
+        return view('aprendiz.ejercicios.index', compact('ejercicios', 'categoria', 'strEjercicios'));
+    }
+
+    public function while()
+    {
+        $categoria = "Ciclo while";
+        $aprendiz = Aprendiz::where('email', Auth::user()->email)->first();
+        $ejerciciosGrupo = GrupoEjercicio::where('grupo_id', $aprendiz->grupo_id)->get();
+        $ejercicios = [];
+        $strEjercicios = [];
+        foreach ($ejerciciosGrupo as $item) {
+            $ejercicio = Ejercicio::find($item->ejercicio_id);
+            if($ejercicio->categoria == $categoria)
+            {
+                $ejercicio = Ejercicio::find($item->ejercicio_id);
+                $ejercicios[] = $ejercicio;
+                $strEjercicios[] = preg_replace('/\[.*?\]/', '(__)', $ejercicio->enunciado);
+            }
+        }
+        return view('aprendiz.ejercicios.index', compact('ejercicios', 'categoria', 'strEjercicios'));
+    }
     
     public function resolver($id)
     {
@@ -168,8 +206,12 @@ class EjercicioController extends Controller
         {
             $respuestas[] = Respuesta::where('pregunta_id', $pregunta->id)->orderByRaw("RAND()")->get();
         }
-        // dd($respuestas);
-        return view('aprendiz.ejercicios.responder', compact('ejercicio', 'strEjercicio', 'preguntas', 'respuestas'));
+        $aprendiz = Aprendiz::where('email', Auth::user()->email)->first();
+        $avance = Avance::where('aprendiz_id', $aprendiz->id)
+                        ->where('ejercicio_id', $ejercicio->id)
+                        ->first();
+
+        return view('aprendiz.ejercicios.responder', compact('ejercicio', 'strEjercicio', 'preguntas', 'respuestas', 'avance'));
     }
 
     public function guardarRespuestas(Request $request)
@@ -198,16 +240,52 @@ class EjercicioController extends Controller
         return redirect()->route('miavance');
     }
 
+    public function editarRespuestas(Request $request)
+    {
+        $puntaje = 0;
+        $preguntas = [];
+        foreach ($request->preguntas as $pregunta) {
+            $preguntas[] = Pregunta::find($pregunta);
+        }
+        $puntosPregunta = 100 / count($preguntas);
+        $respuestas = [];
+        foreach ($request->respuestas as $respuesta) {
+            $respuesta = Respuesta::find($respuesta);
+            if($respuesta->esCorrecta)
+                $puntaje += $puntosPregunta;
+        }
+        // var_dump($puntaje);
+        $aprendiz = Aprendiz::where('email', Auth::user()->email)->first();
+
+        $avance = Avance::where('aprendiz_id', $aprendiz->id)
+                        ->where('ejercicio_id', $request->ejercicio_id)
+                        ->first();
+
+        $avance->porcentaje = $puntaje;
+        $avance->save();
+
+        return redirect()->route('miavance');
+    }
+
     public function miavance()
     {
         $aprendiz = Aprendiz::where('email', Auth::user()->email)->first();
-        $ejerciciosGrupo = GrupoEjercicio::where('grupo_id', $aprendiz->grupo_id)->get();
+        // $ejerciciosGrupo = GrupoEjercicio::where('grupo_id', $aprendiz->grupo_id)->get();
+        $ejerciciosGrupo = DB::table('grupo_ejercicios')
+        ->join('ejercicios', 'ejercicios.id', '=', 'grupo_ejercicios.ejercicio_id')
+        ->leftJoin('avances', 'avances.ejercicio_id', '=', 'ejercicios.id')
+        ->select('ejercicios.*','avances.porcentaje')
+        ->where('grupo_ejercicios.grupo_id',$aprendiz->grupo_id)
+        ->get();
+        // dd($ejerciciosGrupo);
         $avances = Avance::where('aprendiz_id', $aprendiz->id)->get();
         $avanceGlobal = 0;
         foreach ($avances as $avance) {
             $avanceGlobal += $avance->porcentaje;
         }
         $avanceGlobal /= count($ejerciciosGrupo);
+        $avanceGlobal = round($avanceGlobal);
+
         return view('aprendiz.miavance', compact('aprendiz', 'avances', 'avanceGlobal', 'ejerciciosGrupo'));
     }
 }

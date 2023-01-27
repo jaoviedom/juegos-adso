@@ -7,7 +7,16 @@
   <div class="nk-block-head-content">
     <h2 class="nk-block-title fw-normal">Ejercicio {{ $ejercicio->id }}</h2>
     <div class="nk-block-des">
-      <p class="lead"></p>
+      @if (!empty($avance))
+      <div class="project-list-progress">
+        <span class="me-3">Porcentaje de acierto del ejecicio: </span>
+        <div class="progress progress-pill progress-lg bg-light">
+          <div class="progress-bar" data-progress="{{ $avance->porcentaje }}"></div>
+        </div>
+        <div class="project-progress-percent">{{ $avance->porcentaje }}%</div>
+      </div>
+      {{-- <p class="lead">{{ $avance->porcentaje }}</p> --}}
+      @endif
     </div>
   </div>
 </div>
@@ -18,7 +27,12 @@
 
 <div class="card card-bordered card-preview">
   <div class="card-inner">
+    @if (empty($avance))
     <form action="{{ route('ejercicios.guardarRespuestas') }}" method="post" class="needs-validation" novalidate>
+    @else
+    <form action="{{ route('ejercicios.editarRespuestas', $ejercicio->id) }}" method="post" class="needs-validation" novalidate>
+      @method('PUT')
+    @endif
       @csrf
       <input type="hidden" name="ejercicio_id" value="{{ $ejercicio->id }}">
       @foreach ($preguntas as $i => $pregunta)
