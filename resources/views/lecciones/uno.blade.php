@@ -15,7 +15,7 @@
   <div class="card-inner">
     <!--Normal FLipbook-->
     <div class="_df_book" height="500" webgl="true" backgroundcolor="teal"
-            source="{{ asset('pdf/caracteristicas_lenguajes.pdf') }}"
+            source="{{ asset('pdf/leccion01.pdf') }}"
             id="df_manual_book">
     </div>
   </div>
